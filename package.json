@@ -1,15 +1,16 @@
 {
-  "name": "study-rollup",
-  "version": "1.0.0",
+  "name": "template-rollup",
+  "version": "0.0.0",
+  "main": "",
+  "module": "",
+  "author": "",
+  "license": "MIT",
   "description": "",
-  "main": "./dist/index.cjs.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cross-env NODE_ENV=development rollup -c -w",
     "build": "cross-env NODE_ENV=production rollup -c"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {},
   "devDependencies": {
     "@rollup/plugin-buble": "^0.21.3",
