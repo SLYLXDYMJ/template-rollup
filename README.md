@@ -1,2 +1,1 @@
-# template-rollup
-rollup 类库脚手架
+## Rollup 类库脚手架
