@@ -10,7 +10,6 @@ install:
   - cd ./docs
   - npm install
 script:
-  - cd ./docs
   - npm run build
 deploy:
   provider: pages
