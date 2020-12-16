@@ -34,8 +34,8 @@ output: [ /* ... */ ]
 
 ### 修改 package.json
 > 各个入口文件属性解析:
->   main: commonjs
->   module: ES
+>   main: commonjs <br/>
+>   module: ES <br/>
 >   unpkg: script 标签引入
 ```json
 {
