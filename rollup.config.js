@@ -41,6 +41,8 @@ import resolve from '@rollup/plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 
 /**
+ *  打包后文件的名称
+ *  umd iife 对外暴露的 window 属性名
  *  TODO: 请指定库名称
  **/
 const NAME = '_'
@@ -75,14 +77,9 @@ export default {
       file: `dist/${ NAME }.cjs.js`
     },
     {
-      format: 'umd',
-      name: NAME,
-      file: `dist/${ NAME }.umd.js`
-    },
-    {
       name: NAME,
       format: 'iife',
-      file: `dist/${ NAME }.min.js`
+      file: `dist/${ NAME }.js`
     }
   ],
   
