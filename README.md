@@ -33,7 +33,7 @@ output: [ /* ... */ ]
 ```
 
 ### 修改 package.json
-> 各个入口文件属性解析:
+> 各个入口文件属性解析: <br/>
 >   main: commonjs <br/>
 >   module: ES <br/>
 >   unpkg: script 标签引入
