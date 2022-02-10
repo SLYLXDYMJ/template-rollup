@@ -33,6 +33,7 @@ output: [ /* ... */ ]
 ```
 
 ### 修改 package.json
+> 文件名为 rollup.config.js 中定义的 NAME 变量的短横线命名
 > 各个入口文件属性解析: <br/>
 >   main: commonjs <br/>
 >   module: ES <br/>

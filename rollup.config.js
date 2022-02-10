@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 /**
  *  解析 .vue 文件
  *  作用和 vue-loader 相同
@@ -20,30 +22,32 @@ import css from 'rollup-plugin-css-only'
 import image from '@rollup/plugin-image'
 
 /**
- *  转化 ES6 -> ES5 代码
- *  https://www.npmjs.com/package/@rollup/plugin-buble
- *
- *  ! 在打包 vue 组件中我尝试使用了 @rollup/plugin-babel
- *  ! 但是在打包后的代码中，始终有一部分 ES6 代码无法转换
- *  ! 暂时未找到解决办法，但是使用 buble 就可以正常转换
+ *  2022.02.10
+ *  babel 的配置真实太难搞了....
+ *  配置参考自：https://blog.csdn.net/wu_xianqiang/article/details/117898118
  **/
-import buble from '@rollup/plugin-buble'
+import babel from 'rollup-plugin-babel'
 
 /**
  *  用于使 rollup 更方便的查找模块
  **/
-import resolve from '@rollup/plugin-node-resolve'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
 
 /**
  *  rollup 推崇使用 ES6 的模块化风格
  *  这个插件使 commonjs 方式的模块也可以正常使用
  **/
-import commonjs from 'rollup-plugin-commonjs'
+import commonjs from '@rollup/plugin-commonjs'
+
+/**
+ *  压缩代码
+ **/
+import { terser } from 'rollup-plugin-terser'
 
 /**
  *  打包后文件的名称
  *  umd iife 对外暴露的 window 属性名
- *  TODO: 请指定库名称
+ *  TODO: 请指定库名称，驼峰命名
  **/
 const NAME = '_'
 
@@ -70,31 +74,58 @@ export default {
   output: [
     {
       format: 'esm',
-      file: `dist/${ NAME }.esm.js`
+      file: `dist/${ _.kebabCase(NAME) }.esm.js`
     },
     {
       format: 'cjs',
-      file: `dist/${ NAME }.cjs.js`
+      file: `dist/${ _.kebabCase(NAME) }.cjs.js`,
+      exports: 'default'
     },
     {
       name: NAME,
       format: 'iife',
-      file: `dist/${ NAME }.js`
+      file: `dist/${ _.kebabCase(NAME) }.js`
     }
   ],
   
   plugins: [
     commonjs(),
-    resolve({
+    nodeResolve({
+      browser: true,
       extensions: [ '.js', '.vue' ]
     }),
     vue({
-      css: false
+      css: false,
+      
+      /**
+       *  解决打包后部分 .vue 相关 ES6 代码没有被 babel 转换的问题
+       *  https://github.com/lljj-x/vue-json-schema-form/issues/29
+       *  https://github.com/rollup/rollup-plugin-babel/issues/260
+       **/
+      normalizer: '~vue-runtime-helpers/dist/normalize-component.js'
+    }),
+    babel({
+      runtimeHelpers: true,
+      externalHelpers: true,
+      exclude: /node_modules\/(?!(@lljj)\/).*/,
+      
+      /**
+       *  解决打包后部分 .vue 相关 ES6 代码没有被 babel 转换的问题
+       *  https://github.com/lljj-x/vue-json-schema-form/issues/29
+       *  https://github.com/rollup/rollup-plugin-babel/issues/260
+       **/
+      extensions: [ '.js', '.jsx', '.es6', '.es', '.mjs', '.vue', '.jpg', '.png', '.webp', '.bmp' ]
     }),
     css({
       output: `${ NAME }.css`
     }),
     image(),
-    buble()
+    
+    // 生产环境压缩代码
+    (function () {
+      if (isPro) {
+        return terser()
+      }
+    })()
   ]
 }
