@@ -46,7 +46,12 @@ output: [ /* ... */ ]
   "module": "dist/XXXXXX.esm.js",
   "unpkg": "dist/XXXXXX.js",
   "author": "",
-  "description": ""
+  "description": "",
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  }
 }
 ```
 

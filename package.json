@@ -6,12 +6,12 @@
   "unpkg": "dist/XXXXXX.js",
   "author": "",
   "description": "",
-  "license": "MIT",
   "homepage": "",
   "repository": {
     "type": "git",
     "url": ""
   },
+  "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_ENV=development rollup -c -w",
     "build": "cross-env NODE_ENV=production rollup -c"
